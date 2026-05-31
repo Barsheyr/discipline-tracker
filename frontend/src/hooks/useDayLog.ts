@@ -1,7 +1,7 @@
-import { useState, useEffect, useCallback } from 'react';
-import { DayLog, Habit } from '../types';
-import { daysApi } from '../api';
-import toast from 'react-hot-toast';
+import { useState, useEffect, useCallback } from "react";
+import { DayLog, Habit } from "../types";
+import { daysApi } from "../services";
+import toast from "react-hot-toast";
 
 function getTodayKey() {
   return new Date().toISOString().slice(0, 10);
@@ -23,7 +23,7 @@ export function useDayLog(dateKey: string) {
       setDay(dayData);
       setStreak(streakCount);
     } catch {
-      toast.error('Failed to load tracker data');
+      toast.error("Failed to load tracker data");
     } finally {
       setLoading(false);
     }
@@ -43,12 +43,19 @@ export function useDayLog(dateKey: string) {
       // Optimistic update
       setDay((prev) =>
         prev
-          ? { ...prev, habits: prev.habits.map((h) => (h.id === habit.id ? { ...h, done: next } : h)) }
+          ? {
+              ...prev,
+              habits: prev.habits.map((h) =>
+                h.id === habit.id ? { ...h, done: next } : h
+              ),
+            }
           : prev
       );
 
       try {
-        const updated = await daysApi.updateHabit(day.dateKey, habit.id, { done: next });
+        const updated = await daysApi.updateHabit(day.dateKey, habit.id, {
+          done: next,
+        });
         setDay(updated);
         // Refresh streak
         const s = await daysApi.getStreak();
@@ -57,10 +64,15 @@ export function useDayLog(dateKey: string) {
         // Revert on failure
         setDay((prev) =>
           prev
-            ? { ...prev, habits: prev.habits.map((h) => (h.id === habit.id ? { ...h, done: habit.done } : h)) }
+            ? {
+                ...prev,
+                habits: prev.habits.map((h) =>
+                  h.id === habit.id ? { ...h, done: habit.done } : h
+                ),
+              }
             : prev
         );
-        toast.error('Could not save habit');
+        toast.error("Could not save habit");
       }
     },
     [day]
@@ -71,14 +83,21 @@ export function useDayLog(dateKey: string) {
       if (!day) return;
       setDay((prev) =>
         prev
-          ? { ...prev, habits: prev.habits.map((h) => (h.id === habit.id ? { ...h, note } : h)) }
+          ? {
+              ...prev,
+              habits: prev.habits.map((h) =>
+                h.id === habit.id ? { ...h, note } : h
+              ),
+            }
           : prev
       );
       try {
-        const updated = await daysApi.updateHabit(day.dateKey, habit.id, { note });
+        const updated = await daysApi.updateHabit(day.dateKey, habit.id, {
+          note,
+        });
         setDay(updated);
       } catch {
-        toast.error('Could not save note');
+        toast.error("Could not save note");
       }
     },
     [day]
@@ -89,15 +108,22 @@ export function useDayLog(dateKey: string) {
       if (!day) return;
       setDay((prev) =>
         prev
-          ? { ...prev, habits: prev.habits.map((h) => (h.id === habit.id ? { ...h, name } : h)) }
+          ? {
+              ...prev,
+              habits: prev.habits.map((h) =>
+                h.id === habit.id ? { ...h, name } : h
+              ),
+            }
           : prev
       );
       try {
         setSaving(true);
-        const updated = await daysApi.updateHabit(day.dateKey, habit.id, { name });
+        const updated = await daysApi.updateHabit(day.dateKey, habit.id, {
+          name,
+        });
         setDay(updated);
       } catch {
-        toast.error('Could not save habit name');
+        toast.error("Could not save habit name");
       } finally {
         setSaving(false);
       }
@@ -108,14 +134,14 @@ export function useDayLog(dateKey: string) {
   const addHabit = useCallback(async () => {
     if (!day) return;
     if (day.habits.length >= 30) {
-      toast.error('Maximum 30 habits per day');
+      toast.error("Maximum 30 habits per day");
       return;
     }
     try {
-      const updated = await daysApi.addHabit(day.dateKey, '');
+      const updated = await daysApi.addHabit(day.dateKey, "");
       setDay(updated);
     } catch {
-      toast.error('Could not add habit');
+      toast.error("Could not add habit");
     }
   }, [day]);
 
@@ -123,13 +149,15 @@ export function useDayLog(dateKey: string) {
     async (habitId: string) => {
       if (!day) return;
       const prev = day;
-      setDay((d) => (d ? { ...d, habits: d.habits.filter((h) => h.id !== habitId) } : d));
+      setDay((d) =>
+        d ? { ...d, habits: d.habits.filter((h) => h.id !== habitId) } : d
+      );
       try {
         const updated = await daysApi.deleteHabit(day.dateKey, habitId);
         setDay(updated);
       } catch {
         setDay(prev);
-        toast.error('Could not delete habit');
+        toast.error("Could not delete habit");
       }
     },
     [day]
@@ -143,7 +171,7 @@ export function useDayLog(dateKey: string) {
         const updated = await daysApi.updateDay(day.dateKey, { reflection });
         setDay(updated);
       } catch {
-        toast.error('Could not save reflection');
+        toast.error("Could not save reflection");
       }
     },
     [day]
@@ -157,7 +185,7 @@ export function useDayLog(dateKey: string) {
         const updated = await daysApi.updateDay(day.dateKey, { rating });
         setDay(updated);
       } catch {
-        toast.error('Could not save rating');
+        toast.error("Could not save rating");
       }
     },
     [day]

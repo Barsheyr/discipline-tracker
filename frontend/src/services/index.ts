@@ -1,12 +1,10 @@
 import axios from "axios";
 import { DayLog, StreakResponse } from "../types";
 
-// ✅ Fix: Define the base URL properly for Vite + TypeScript
-const isProd = import.meta.env?.PROD ?? false;
-
 const api = axios.create({
-  baseURL: isProd ? "/_backend/api" : "http://localhost:5000/api",
+  baseURL: import.meta.env.VITE_API_URL ?? "http://localhost:5000/api",
   headers: { "Content-Type": "application/json" },
+  withCredentials: true,
 });
 
 export const daysApi = {

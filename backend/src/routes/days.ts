@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import { v4 as uuid } from "uuid";
-import { DayLog } from "../models/DayLog";
+import { DayLog } from "../models/DayLog.js";
 
 const router = Router();
 

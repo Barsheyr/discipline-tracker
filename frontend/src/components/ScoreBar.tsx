@@ -1,16 +1,16 @@
-import React from 'react';
-import { Habit } from '../types';
+import React from "react";
+import { Habit } from "../types";
 
 interface Props {
   habits: Habit[];
 }
 
 function getProductiveTag(pct: number): string {
-  if (pct >= 90) return 'This was an exceptional day.';
-  if (pct >= 75) return 'This was a productive day. Could have done more.';
-  if (pct >= 50) return 'Good effort. Keep pushing.';
-  if (pct > 0) return 'Tomorrow is a fresh start. ↗';
-  return 'Start your first habit for today.';
+  if (pct >= 90) return "This was an exceptional day.";
+  if (pct >= 75) return "This was a productive day. Could have done more.";
+  if (pct >= 50) return "Good effort. Keep pushing.";
+  if (pct > 0) return "Tomorrow is a fresh start. ↗";
+  return "Start your first habit for today.";
 }
 
 export const ScoreBar: React.FC<Props> = ({ habits }) => {
@@ -19,11 +19,15 @@ export const ScoreBar: React.FC<Props> = ({ habits }) => {
   const pct = total > 0 ? Math.round((done / total) * 100) : 0;
 
   return (
-    <div className="border-t-2 border-black mt-1 pt-3 px-6 pb-2">
+    <div className="border-t-2 border-black mt-1 pt-3 px-2 sm:px-6 pb-2">
       <div className="flex items-baseline justify-between">
         <div className="flex items-baseline gap-3">
-          <span className="font-display text-2xl text-black">{done}/{total}</span>
-          <span className="text-[11px] tracking-widest uppercase text-zinc-400">completed</span>
+          <span className="font-display text-2xl text-black">
+            {done}/{total}
+          </span>
+          <span className="text-[11px] tracking-widest uppercase text-zinc-400">
+            completed
+          </span>
         </div>
         <span className="font-display text-[32px] text-black">= {pct}%</span>
       </div>

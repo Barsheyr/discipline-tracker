@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { Habit } from '../types';
+import React, { useRef, useState } from "react";
+import { Habit } from "../types";
 
 interface Props {
   habit: Habit;
@@ -25,13 +25,13 @@ export const HabitRow: React.FC<Props> = ({
 
   const doneClass =
     habit.done === true
-      ? 'bg-black border-black text-[#faf8f3]'
+      ? "bg-black border-black text-[#faf8f3]"
       : habit.done === false
-      ? 'border-zinc-400 text-zinc-400'
-      : 'border-zinc-300 text-transparent';
+      ? "border-zinc-400 text-zinc-400"
+      : "border-zinc-300 text-transparent";
 
   const doneSymbol =
-    habit.done === true ? '✓' : habit.done === false ? '✗' : '·';
+    habit.done === true ? "✓" : habit.done === false ? "✗" : "·";
 
   return (
     <tr className="border-b border-zinc-200 group hover:bg-zinc-50 transition-colors">
@@ -41,7 +41,7 @@ export const HabitRow: React.FC<Props> = ({
       </td>
 
       {/* Habit name */}
-      <td className="py-2 pr-2 align-middle">
+      <td className="py-2 pl-1 sm:pl-2 align-middle w-68 sm:w-36">
         <div className="flex items-center gap-2">
           <input
             ref={nameRef}
@@ -51,7 +51,7 @@ export const HabitRow: React.FC<Props> = ({
               if (localName !== habit.name) onNameChange(habit, localName);
             }}
             onKeyDown={(e) => {
-              if (e.key === 'Enter') nameRef.current?.blur();
+              if (e.key === "Enter") nameRef.current?.blur();
             }}
             placeholder="Add habit..."
             className="bg-transparent border-none outline-none font-mono text-[13px] text-black w-full placeholder-zinc-300"
@@ -67,7 +67,7 @@ export const HabitRow: React.FC<Props> = ({
       </td>
 
       {/* Toggle button */}
-      <td className="py-2 text-center align-middle w-12">
+      <td className="py-2 text-center align-middle w-8 sm:w-12">
         <button
           onClick={() => onToggle(habit)}
           className={`w-7 h-7 border-[1.5px] inline-flex items-center justify-center text-sm font-mono transition-all duration-100 ${doneClass}`}
@@ -87,7 +87,7 @@ export const HabitRow: React.FC<Props> = ({
             if (localNote !== habit.note) onNoteChange(habit, localNote);
           }}
           onKeyDown={(e) => {
-            if (e.key === 'Enter') noteRef.current?.blur();
+            if (e.key === "Enter") noteRef.current?.blur();
           }}
           placeholder="—"
           className="bg-transparent border-none border-b border-dotted border-zinc-200 outline-none font-mono text-[12px] text-zinc-500 w-full placeholder-zinc-200"

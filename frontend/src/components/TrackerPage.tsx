@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useDayLog, getTodayKey } from '../hooks/useDayLog';
-import { HabitRow } from './HabitRow';
-import { ScoreBar } from './ScoreBar';
-import { StarRating } from './StarRating';
-import { HistoryPanel } from './HistoryPanel';
+import React, { useEffect, useRef, useState } from "react";
+import { useDayLog, getTodayKey } from "../hooks/useDayLog";
+import { HabitRow } from "./HabitRow";
+import { ScoreBar } from "./ScoreBar";
+import { StarRating } from "./StarRating";
+import { HistoryPanel } from "./HistoryPanel";
 
 export const TrackerPage: React.FC = () => {
   const [dateKey, setDateKey] = useState(getTodayKey());
@@ -27,7 +27,7 @@ export const TrackerPage: React.FC = () => {
   // Auto-resize reflection textarea
   useEffect(() => {
     if (reflectionRef.current) {
-      reflectionRef.current.style.height = 'auto';
+      reflectionRef.current.style.height = "auto";
       reflectionRef.current.style.height = `${reflectionRef.current.scrollHeight}px`;
     }
   }, [day?.reflection]);
@@ -54,13 +54,15 @@ export const TrackerPage: React.FC = () => {
   if (!day) {
     return (
       <div className="min-h-screen bg-[#f5f2eb] flex items-center justify-center">
-        <div className="font-mono text-zinc-500">Could not load tracker. Check your server.</div>
+        <div className="font-mono text-zinc-500">
+          Could not load tracker. Check your server.
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#f5f2eb] py-6 px-4">
+    <div className="min-h-screen bg-[#f5f2eb] py-4 sm:py-6 px-2 sm:px-4">
       {showHistory && (
         <HistoryPanel
           currentKey={dateKey}
@@ -70,27 +72,34 @@ export const TrackerPage: React.FC = () => {
       )}
 
       <div className="max-w-2xl mx-auto bg-[#faf8f3] border-x border-zinc-200 shadow-sm min-h-screen pb-16">
-
         {/* ── Header ── */}
-        <div className="flex items-center justify-between px-6 pt-5 pb-3 border-b-2 border-black">
-          <div className="flex items-center gap-4">
-            <span className="font-display text-3xl tracking-wide text-black">Day</span>
+        <div className="flex items-center justify-between px-3 sm:px-6 pt-4 sm:pt-5 pb-3 border-b-2 border-black gap-2">
+          <div className="flex items-center gap-2 sm:gap-4 min-w-0">
+            <span className="font-display text-3xl tracking-wide text-black">
+              Day
+            </span>
             <span className="font-mono text-sm text-zinc-500 border-b border-black pb-0.5">
               {day.displayDate}
             </span>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
             {/* Streak badge */}
             <div className="flex items-center gap-1.5 bg-black text-[#faf8f3] px-3 py-1 font-mono text-xs tracking-wider">
               <span>🔥</span>
-              <span>{streak} day{streak !== 1 ? 's' : ''}</span>
+              <span>
+                {streak}
+                <span className="hidden sm:inline">
+                  {" "}
+                  day{streak !== 1 ? "s" : ""}
+                </span>
+              </span>
             </div>
 
             {/* History button */}
             <button
               onClick={() => setShowHistory(true)}
-              className="border border-zinc-300 px-3 py-1 font-mono text-xs text-zinc-500 hover:border-black hover:text-black transition-colors"
+              className="border border-zinc-300 px-2 sm:px-3 py-1 font-mono text-xs text-zinc-500 hover:border-black hover:text-black transition-colors"
             >
               history
             </button>
@@ -115,7 +124,7 @@ export const TrackerPage: React.FC = () => {
         </div>
 
         {/* ── Table ── */}
-        <div className="px-6 pt-2">
+        <div className="px-2 sm:px-6 pt-2">
           <table className="w-full border-collapse">
             <thead>
               <tr>
@@ -169,7 +178,7 @@ export const TrackerPage: React.FC = () => {
         <StarRating rating={day.rating} onRate={updateRating} />
 
         {/* ── Reflection ── */}
-        <div className="px-6 pt-2 pb-6">
+        <div className="px-2 sm:px-6 pt-2 pb-6">
           <div className="text-[10px] font-mono tracking-widest uppercase text-zinc-400 border-b border-zinc-200 pb-1 mb-3">
             Reflection
           </div>
@@ -180,8 +189,8 @@ export const TrackerPage: React.FC = () => {
               className="absolute inset-0 pointer-events-none"
               style={{
                 backgroundImage:
-                  'repeating-linear-gradient(transparent, transparent 27px, #e8e4db 27px, #e8e4db 28px)',
-                backgroundPosition: '0 6px',
+                  "repeating-linear-gradient(transparent, transparent 27px, #e8e4db 27px, #e8e4db 28px)",
+                backgroundPosition: "0 6px",
               }}
             />
             <textarea
